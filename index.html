@@ -48,39 +48,51 @@
   <title>Temperature Converter</title>
 </head>
 <body>
-  <center>
   <div class="converter-box">
     <div class="box">
       <h2>Temperature Converter</h2>
       <div class="input-container">
         <input type="text" id="celsius" placeholder="Celsius"><br><br>
         <input type="text" id="fahrenheit" placeholder="Fahrenheit"><br><br>
-        <button class="convert-button" onclick="convertTemperature()">Convert</button>
+        <input type="text" id="kelvin" placeholder="Kelvin"><br><br>
+        <button class="convert-button" onclick="convertTemperature('celsius', 'fahrenheit')">C to F</button>
+        <button class="convert-button" onclick="convertTemperature('celsius', 'kelvin')">C to K</button><br><br>
+        <button class="convert-button" onclick="convertTemperature('fahrenheit', 'celsius')">F to C</button>
+        <button class="convert-button" onclick="convertTemperature('fahrenheit', 'kelvin')">F to K</button><br><br>
+        <button class="convert-button" onclick="convertTemperature('kelvin', 'celsius')">K to C</button>
+        <button class="convert-button" onclick="convertTemperature('kelvin', 'fahrenheit')">K to F</button><br><br>
       </div><br><br><br>
       <p id="result"></p>
     </div>
   </div>
 
   <script>
-    function convertTemperature() {
-      const celsiusInput = document.getElementById('celsius');
-      const fahrenheitInput = document.getElementById('fahrenheit');
+    function convertTemperature(fromUnit, toUnit) {
+      const inputElement = document.getElementById(fromUnit);
+      const outputElement = document.getElementById(toUnit);
 
-      const celsiusValue = parseFloat(celsiusInput.value);
-      const fahrenheitValue = parseFloat(fahrenheitInput.value);
+      const inputValue = parseFloat(inputElement.value);
 
-      if (!isNaN(celsiusValue)) {
-        const convertedFahrenheit = (celsiusValue * 9/5) + 32;
-        fahrenheitInput.value = convertedFahrenheit.toFixed(2);
-      }
+      if (!isNaN(inputValue)) {
+        let convertedValue;
 
-      if (!isNaN(fahrenheitValue)) {
-        const convertedCelsius = (fahrenheitValue - 32) * 5/9;
-        celsiusInput.value = convertedCelsius.toFixed(2);
+        if (fromUnit === 'celsius' && toUnit === 'fahrenheit') {
+          convertedValue = (inputValue * 9/5) + 32;
+        } else if (fromUnit === 'celsius' && toUnit === 'kelvin') {
+          convertedValue = inputValue + 273.15;
+        } else if (fromUnit === 'fahrenheit' && toUnit === 'celsius') {
+          convertedValue = (inputValue - 32) * 5/9;
+        } else if (fromUnit === 'fahrenheit' && toUnit === 'kelvin') {
+          convertedValue = (inputValue - 32) * 5/9 + 273.15;
+        } else if (fromUnit === 'kelvin' && toUnit === 'celsius') {
+          convertedValue = inputValue - 273.15;
+        } else if (fromUnit === 'kelvin' && toUnit === 'fahrenheit') {
+          convertedValue = (inputValue - 273.15) * 9/5 + 32;
+        }
+
+        outputElement.value = convertedValue.toFixed(2);
       }
     }
   </script>
-    
-  </center>
 </body>
 </html>
